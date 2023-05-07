@@ -1,0 +1,22 @@
+name: Deployment
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - 'src/core/**'
+    - '.github/workflows/core-dev-deployment.yml'
+    - 'db-management/migrations/**'
+
+jobs:
+  migrate-db:
+      uses: andreia-oca/test-actions/.github/workflows/migrate.yml@main
+  deploy:
+    runs-on: ubuntu-latest
+    needs: migrate-db
+    if: ${{ !failure() && !cancelled() }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run script file
+        run: echo "I am deploying the application"
+        shell: bash
