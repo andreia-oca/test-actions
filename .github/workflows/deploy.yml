@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
   push:
     paths:
-    - 'src/core/**'
-    - '.github/workflows/core-dev-deployment.yml'
-    - 'db-management/migrations/**'
+      - "src/core/**"
+      - ".github/workflows/core-dev-deployment.yml"
+      - "src/db-management/migrations/**"
 
 jobs:
   migrate-db:
-      uses: andreia-oca/test-actions/.github/workflows/migrate.yml@main
+    uses: andreia-oca/test-actions/.github/workflows/migrate.yml@main
   deploy:
     runs-on: ubuntu-latest
     needs: migrate-db
