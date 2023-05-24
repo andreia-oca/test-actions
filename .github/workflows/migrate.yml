@@ -20,9 +20,15 @@ jobs:
   migrate-db:
     runs-on: ubuntu-latest
     needs: check-new-migrations
-    if: ${{ needs.check-new-migrations.outputs.trigger-migration == false }}
+    if: ${{ needs.check-new-migrations.outputs.trigger-migration == true }}
     steps:
       - uses: actions/checkout@v3
       - name: Migrate database
         run: echo "I am migrating the database"
-
+  skipping-migration:
+    runs-on: ubuntu-latest
+    needs: check-new-migrations
+    if: ${{ needs.check-new-migrations.outputs.trigger-migration == false }}
+    steps:
+      - name: Skipping migration
+        run: echo "Skipping database migration"
